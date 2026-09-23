@@ -9,11 +9,17 @@
 *.elf
 
 # Build directories
-build/
+build/output/
+build/dl/
 output/
 tmp/
 temp/
 .cache/
+
+# Buildroot specific
+build/.config
+build/.config.old
+build/.br2-external.mk
 
 # Kernel build artifacts
 *.mod

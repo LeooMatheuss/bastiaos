@@ -1,0 +1,109 @@
+# Build artifacts
+*.o
+*.a
+*.so
+*.ko
+*.img
+*.iso
+*.bin
+*.elf
+
+# Build directories
+build/
+output/
+tmp/
+temp/
+.cache/
+
+# Kernel build artifacts
+*.mod
+*.mod.c
+Module.symvers
+modules.order
+.vmlinux*
+
+# QEMU artifacts
+qemu.log
+qemu.pid
+
+# Cross-compilation toolchain
+toolchain/
+.ccache/
+
+# Documentation builds
+docs/_build/
+docs/.doctrees/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Log files
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.bak
+*.backup
+
+# Package manager files
+node_modules/
+vendor/
+
+# Configuration files with secrets
+*.env
+.env.local
+.env.*.local
+
+# Test coverage
+coverage/
+.coverage
+*.cover
+
+# Build system files
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
+install_manifest.txt
+
+# Autotools
+autom4te.cache/
+configure
+aclocal.m4
+config.h.in
+config.status
+config.log
+libtool
+stamp-h1
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+*.egg-info/
+.pytest_cache/
+
+# Go
+*.sum
+go.sum
+
+# Rust
+target/
+Cargo.lock
+
+# Image files
+images/*.iso
+images/*.img
+images/*.qcow2
+images/*.vmdk
+
+# Installer artifacts
+installer/build/
+installer/dist/

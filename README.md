@@ -1,182 +1,279 @@
-# BastiaOS
+<div align="center">
 
-> A lightweight, modular and reproducible Linux distribution.
+<img src="assets/branding/logo.svg" alt="BastiaOS" width="560">
 
-## Vision
+### An immutable, secure-by-default and fully reproducible Linux distribution.
 
-BastiaOS aims to be a modern Linux distribution that prioritizes simplicity, reproducibility, and transparency. The project focuses on creating a minimal but functional system that can be easily customized and extended by users and developers.
+[![Status](https://img.shields.io/badge/status-pre--alpha-orange?style=flat-square)](#-project-status)
+[![Build System](https://img.shields.io/badge/build-Buildroot-6366F1?style=flat-square)](docs/decisions/ADR-0001-build-system.md)
+[![Arch](https://img.shields.io/badge/arch-x86__64-22D3EE?style=flat-square)](#-architecture)
+[![Init](https://img.shields.io/badge/init-systemd-A855F7?style=flat-square)](docs/system/README.md)
+[![License](https://img.shields.io/badge/license-TBD-lightgrey?style=flat-square)](#-license)
 
-## Architecture
+[Vision](#-vision) ·
+[Features](#-key-features) ·
+[Architecture](#-architecture) ·
+[Quick Start](#-quick-start) ·
+[Roadmap](#-roadmap) ·
+[Contributing](#-contributing)
 
-The system architecture follows a layered approach:
-
-- **Build System**: Tools and processes for creating reproducible builds
-- **Toolchain**: Cross-compilation toolchain for consistent builds
-- **Linux Kernel**: Customized kernel with essential drivers
-- **Bootloader**: System boot configuration and management
-- **Initramfs**: Early userspace for boot process
-- **Root Filesystem**: Core system files and directories
-- **Userspace**: Essential GNU/Linux utilities
-- **System Services**: Service management and system daemons
-- **Graphics**: Display server and graphics stack
-- **Desktop**: Desktop environment (Wayland-based)
-- **Applications**: Flatpak application support
-
-## Project Status
-
-🚧 **Pre-Alpha Phase**
-
-The project is currently in the initial planning and research phase. We are evaluating build systems, kernel configurations, and core architectural decisions.
-
-## Roadmap
-
-### Phase 1: Foundation
-- [ ] Select and configure build system
-- [ ] Set up cross-compilation toolchain
-- [ ] Create minimal bootable system
-- [ ] Establish reproducible build pipeline
-
-### Phase 2: Core System
-- [ ] Configure Linux kernel
-- [ ] Implement init system
-- [ ] Set up filesystem structure
-- [ ] Configure networking stack
-
-### Phase 3: Graphics and Desktop
-- [ ] Implement Wayland display server
-- [ ] Configure graphics stack
-- [ ] Select and integrate desktop environment
-- [ ] Set up display manager
-
-### Phase 4: User Experience
-- [ ] Package management system
-- [ ] Flatpak integration
-- [ ] System configuration tools
-- [ ] Installer development
-
-### Phase 5: Testing and Polish
-- [ ] Automated testing framework
-- [ ] Security auditing
-- [ ] Performance optimization
-- [ ] Documentation completion
-
-## Development Philosophy
-
-BastiaOS follows these core principles:
-
-1. **Design → Build → Test → Document → Improve**: Every feature goes through this cycle
-2. **Reproducibility**: All builds must be reproducible from source
-3. **Transparency**: All decisions are documented in Architecture Decision Records (ADRs)
-4. **Modularity**: Components should be independent and replaceable
-5. **Simplicity**: Avoid unnecessary complexity
-6. **User Control**: The user should have full control over their system
-
-## Reproducible Builds
-
-One of the primary goals of BastiaOS is to ensure that builds are reproducible. This means:
-
-- Binary builds from the same source produce identical outputs
-- Build processes are deterministic
-- Dependencies are pinned and versioned
-- Build environment is standardized
-
-## Testing
-
-The project will implement a comprehensive testing strategy:
-
-- Unit tests for individual components
-- Integration tests for system services
-- Boot tests in virtual environments (QEMU)
-- Reproducibility tests for build artifacts
-- Security tests and vulnerability scanning
-
-## Documentation
-
-Documentation is treated as first-class code:
-
-- All architectural decisions are recorded in ADRs
-- Technical documentation lives in `/docs`
-- User documentation is maintained alongside the code
-- Code is self-documenting with clear comments
-
-## Repository Structure
-
-```
-bastiaos/
-├── .github/           # GitHub Actions and workflows
-├── apps/              # Applications and utilities
-├── build/             # Build scripts and configurations
-├── config/            # System configuration files
-├── desktop/           # Desktop environment components
-├── docs/              # Technical documentation
-├── images/            # Build artifacts and ISO images
-├── installer/         # System installer
-├── kernel/            # Kernel configurations and patches
-├── packages/          # Package definitions
-├── scripts/           # Utility scripts
-├── system/            # System-level components
-├── tests/             # Test suites
-└── tools/             # Development tools
-```
-
-## Development Workflow
-
-1. **Propose Change**: Create an issue or ADR for significant changes
-2. **Design**: Document the approach in the relevant ADR
-3. **Implement**: Write code following existing patterns
-4. **Test**: Ensure all tests pass
-5. **Document**: Update relevant documentation
-6. **Review**: Submit pull request for review
-7. **Merge**: Merge after approval
-
-## Performance
-
-BastiaOS aims for:
-
-- Fast boot times (< 10 seconds on modern hardware)
-- Low memory footprint (< 500MB idle)
-- Minimal CPU usage for background services
-- Efficient package management
-
-## Security
-
-Security considerations:
-
-- Minimal attack surface through small base system
-- Regular security updates
-- Secure defaults
-- Appropriate file permissions
-- Regular security audits
-
-## Contributing
-
-Contributions are welcome! Please:
-
-1. Read the documentation in `/docs`
-2. Check existing ADRs for relevant decisions
-3. Create an issue for significant changes
-4. Follow the existing code style
-5. Include tests for new features
-6. Update documentation
-
-## License
-
-To be determined. The project will likely use a permissive open-source license.
-
-## Disclaimer
-
-BastiaOS is currently in early development. It is not suitable for production use. Use at your own risk.
-
-## Long-Term Vision
-
-The ultimate goal is to create a Linux distribution that:
-
-- Is easy to understand and modify
-- Can be built entirely from source
-- Provides a modern user experience
-- Respects user privacy and freedom
-- Serves as a learning platform for OS development
+</div>
 
 ---
 
-**Design → Build → Test → Document → Improve**
+<p align="center">
+  <img src="assets/branding/boot-splash.svg" alt="BastiaOS boot splash concept" width="100%">
+  <br>
+  <sub><i>Boot splash concept — BastiaOS 0.1 “Muralha”</i></sub>
+</p>
+
+## 🏰 Vision
+
+A *bastião* (bastion) is the part of a fortress designed to be the hardest to breach. **BastiaOS** applies that idea to the desktop: a Linux system whose core is **read-only, verified at every boot, and rebuilt bit-for-bit from source**, while users keep full freedom on top of it.
+
+Modern operating systems are moving toward image-based, atomic designs — but most of them are large, opaque or tied to a single vendor. BastiaOS aims to be the opposite: **small, transparent, auditable and understandable by a single person**.
+
+> **Your system. Your fortress.**
+
+## ✨ Key Features
+
+> Features below describe the **target design**. See [Project Status](#-project-status) for what is implemented today.
+
+| | Feature | Description |
+|---|---|---|
+| 🧱 | **Immutable core** | Read-only root filesystem; system changes happen only through signed image updates. |
+| 🔁 | **Atomic A/B updates** | Updates are applied to an inactive slot and switched atomically, with automatic rollback on failure. |
+| 🔐 | **Verified boot chain** | UEFI Secure Boot, Unified Kernel Images (UKI), dm-verity and TPM2-measured boot. |
+| 🧬 | **Reproducible builds** | Same source, same bytes. Every artifact can be independently rebuilt and verified. |
+| 📜 | **Supply-chain transparency** | SBOM generated for every release, pinned and checksummed sources. |
+| 🪶 | **Minimal footprint** | Target of < 10 s boot and < 500 MB RAM at idle. |
+| 🖥️ | **Wayland-native desktop** | Modern graphics stack with no legacy X11 dependency by default. |
+| 📦 | **Sandboxed apps** | Applications delivered via Flatpak, isolated from the base system. |
+| 📖 | **Documented decisions** | Every architectural choice is recorded as an [ADR](docs/decisions/README.md). |
+
+## 🧩 Architecture
+
+BastiaOS follows a layered design, where each layer is independent and replaceable:
+
+```
+┌──────────────────────────────────────────────────────────┐
+│  Applications            Flatpak (sandboxed)             │
+├──────────────────────────────────────────────────────────┤
+│  Desktop                 Wayland compositor + shell      │
+│  Graphics                Mesa · DRM/KMS                  │
+├──────────────────────────────────────────────────────────┤
+│  System Services         systemd · networking · updates  │
+│  Userspace               coreutils · bash · BusyBox      │
+├──────────────────────────────────────────────────────────┤
+│  Root Filesystem         read-only image (A/B slots)     │
+│  Initramfs               early userspace · verity setup  │
+├──────────────────────────────────────────────────────────┤
+│  Linux Kernel            custom config · signed UKI      │
+│  Bootloader              GRUB2 → systemd-boot (planned)  │
+├──────────────────────────────────────────────────────────┤
+│  Toolchain & Build       Buildroot · glibc · ccache      │
+└──────────────────────────────────────────────────────────┘
+```
+
+Current base configuration (see [`build/configs/bastiaos_defconfig`](build/configs/bastiaos_defconfig)):
+
+| Component | Choice |
+|---|---|
+| Build system | [Buildroot](https://buildroot.org) `2024.02.2` — [ADR-0001](docs/decisions/ADR-0001-build-system.md) |
+| Target | `x86_64` |
+| C library | glibc |
+| Init | systemd |
+| Kernel | Latest stable Linux |
+| Bootloader | GRUB2 |
+| Root filesystem | ext4 |
+
+## 🚀 Quick Start
+
+### Requirements
+
+A Linux host with `git`, `wget`, `tar`, `make`, `gcc`, `python3` and, for testing, `qemu-system-x86_64`.
+
+### Build
+
+```bash
+git clone <repository-url> bastiaos
+cd bastiaos
+
+# Download and prepare Buildroot
+./scripts/setup-buildroot.sh
+
+# Apply the BastiaOS configuration
+cd build/buildroot
+cp ../configs/bastiaos_defconfig .config
+
+# (optional) customize
+make menuconfig
+
+# Build the full system
+make -j"$(nproc)"
+```
+
+### Run in QEMU
+
+```bash
+qemu-system-x86_64 \
+    -kernel output/images/bzImage \
+    -drive file=output/images/rootfs.ext2,format=raw \
+    -append "root=/dev/sda console=ttyS0" \
+    -nographic \
+    -m 512M
+```
+
+More details in [`build/README.md`](build/README.md) and [`docs/development/buildroot-setup.md`](docs/development/buildroot-setup.md).
+
+## 📍 Project Status
+
+🚧 **Pre-Alpha** — the project is in its foundation phase. The build system has been selected and an initial Buildroot configuration is in place. BastiaOS is **not** suitable for production use.
+
+## 🗺️ Roadmap
+
+<details open>
+<summary><b>Phase 1 — Foundation</b></summary>
+
+- [x] Select build system ([ADR-0001](docs/decisions/ADR-0001-build-system.md))
+- [x] Initial Buildroot configuration
+- [ ] Cross-compilation toolchain
+- [ ] Minimal bootable system in QEMU
+- [ ] Reproducible build pipeline (CI)
+
+</details>
+
+<details>
+<summary><b>Phase 2 — Core System</b></summary>
+
+- [ ] Kernel configuration and hardening
+- [ ] systemd integration
+- [ ] Filesystem layout
+- [ ] Networking stack
+
+</details>
+
+<details>
+<summary><b>Phase 3 — Immutable & Verified Boot</b></summary>
+
+- [ ] Read-only root with dm-verity
+- [ ] A/B image updates with rollback
+- [ ] Unified Kernel Images + Secure Boot signing
+- [ ] TPM2 measured boot
+- [ ] Boot splash (Plymouth) using the BastiaOS theme
+
+</details>
+
+<details>
+<summary><b>Phase 4 — Graphics & Desktop</b></summary>
+
+- [ ] Wayland compositor
+- [ ] Mesa / DRM graphics stack
+- [ ] Desktop environment selection
+- [ ] Display manager
+
+</details>
+
+<details>
+<summary><b>Phase 5 — User Experience</b></summary>
+
+- [ ] Flatpak integration
+- [ ] System configuration tools
+- [ ] Installer
+
+</details>
+
+<details>
+<summary><b>Phase 6 — Testing & Release</b></summary>
+
+- [ ] Automated boot tests (QEMU)
+- [ ] Reproducibility verification
+- [ ] SBOM and vulnerability scanning
+- [ ] Performance tuning
+- [ ] First public release — **0.1 “Muralha”**
+
+</details>
+
+## 🧭 Development Philosophy
+
+```
+Design → Build → Test → Document → Improve
+```
+
+1. **Reproducibility** — all builds must be reproducible from source.
+2. **Transparency** — decisions are documented in ADRs.
+3. **Modularity** — components are independent and replaceable.
+4. **Simplicity** — no unnecessary complexity.
+5. **User control** — the user always owns their system.
+
+## 🗂️ Repository Structure
+
+```
+bastiaos/
+├── assets/
+│   └── branding/          # Logo, icon and boot splash
+├── build/
+│   ├── configs/           # Buildroot defconfig
+│   ├── linux/             # Kernel configuration
+│   └── package/           # Package overrides (BusyBox, ...)
+├── docs/
+│   ├── architecture/      # System architecture
+│   ├── decisions/         # Architecture Decision Records (ADRs)
+│   ├── development/       # Developer guides
+│   └── ...                # boot, kernel, security, testing, etc.
+└── scripts/               # Setup and utility scripts
+```
+
+## 🧪 Testing Strategy
+
+- Unit tests for individual components
+- Integration tests for system services
+- Automated boot tests in QEMU
+- Reproducibility checks on build artifacts
+- Security and vulnerability scanning
+
+See [`docs/testing`](docs/testing/README.md).
+
+## 🛡️ Security
+
+- Minimal attack surface through a small base system
+- Secure defaults and strict file permissions
+- Verified, signed boot chain (planned)
+- Regular updates and audits
+
+Please report vulnerabilities privately — see [`docs/security`](docs/security/README.md).
+
+## 🎨 Branding
+
+| Asset | File |
+|---|---|
+| Logo (horizontal) | [`assets/branding/logo.svg`](assets/branding/logo.svg) |
+| Icon / mark | [`assets/branding/logo-mark.svg`](assets/branding/logo-mark.svg) |
+| Boot splash (1920×1080) | [`assets/branding/boot-splash.svg`](assets/branding/boot-splash.svg) |
+
+PNG exports are available alongside each SVG.
+
+**Palette:** `#22D3EE` Cyan · `#6366F1` Indigo · `#A855F7` Violet · `#0B1020` Night
+
+## 🤝 Contributing
+
+Contributions are welcome!
+
+1. Read the documentation in [`docs/`](docs/README.md)
+2. Check existing [ADRs](docs/decisions/README.md) for relevant decisions
+3. Open an issue (or an ADR) for significant changes
+4. Follow the existing code style
+5. Include tests and update documentation
+6. Submit a pull request
+
+## 📄 License
+
+To be determined. The project will likely adopt a permissive open-source license.
+
+---
+
+<div align="center">
+  <img src="assets/branding/logo-mark.svg" width="48" alt="">
+  <br>
+  <sub><b>BastiaOS</b> — Design → Build → Test → Document → Improve</sub>
+</div>

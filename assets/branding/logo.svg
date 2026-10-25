@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 320" width="1200" height="320" role="img" aria-label="BastiaOS">
+  <title>BastiaOS</title>
+  <defs>
+    <linearGradient id="bastion" x1="96" y1="64" x2="416" y2="464" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#22D3EE"/>
+      <stop offset="0.55" stop-color="#6366F1"/>
+      <stop offset="1" stop-color="#A855F7"/>
+    </linearGradient>
+    <linearGradient id="word" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22D3EE"/>
+      <stop offset="1" stop-color="#A855F7"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <g transform="translate(20 10) scale(0.58)">
+    <path d="M96 64H160V112H224V64H288V112H352V64H416V296C416 384 352 432 256 472C160 432 96 384 96 296Z" fill="url(#bastion)"/>
+    <path d="M136 168H376" stroke="#FFFFFF" stroke-opacity="0.22" stroke-width="6" stroke-linecap="round"/>
+    <path d="M136 200H376" stroke="#FFFFFF" stroke-opacity="0.12" stroke-width="6" stroke-linecap="round"/>
+    <path d="M208 380V284C208 257.5 229.5 236 256 236C282.5 236 304 257.5 304 284V380Z" fill="#0B1020"/>
+    <rect x="236" y="318" width="40" height="8" rx="4" fill="#22D3EE" filter="url(#glow)"/>
+  </g>
+  <text x="330" y="196" font-family="Inter, 'Segoe UI', Ubuntu, 'Helvetica Neue', Arial, sans-serif" font-size="132" font-weight="700" letter-spacing="-3" fill="#94A3B8">Bastia<tspan fill="url(#word)">OS</tspan></text>
+  <text x="336" y="252" font-family="'JetBrains Mono', 'Fira Code', Menlo, Consolas, monospace" font-size="26" letter-spacing="6" fill="#64748B">IMMUTABLE · SECURE · REPRODUCIBLE</text>
+</svg>

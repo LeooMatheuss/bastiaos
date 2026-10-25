@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" role="img" aria-label="BastiaOS boot splash">
+  <title>BastiaOS — Boot Splash</title>
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="42%" r="75%">
+      <stop offset="0" stop-color="#151B3B"/>
+      <stop offset="0.5" stop-color="#0B1020"/>
+      <stop offset="1" stop-color="#05070F"/>
+    </radialGradient>
+    <radialGradient id="aura" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#6366F1" stop-opacity="0.35"/>
+      <stop offset="0.6" stop-color="#22D3EE" stop-opacity="0.06"/>
+      <stop offset="1" stop-color="#22D3EE" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="bastion" x1="96" y1="64" x2="416" y2="464" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#22D3EE"/>
+      <stop offset="0.55" stop-color="#6366F1"/>
+      <stop offset="1" stop-color="#A855F7"/>
+    </linearGradient>
+    <linearGradient id="bar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22D3EE"/>
+      <stop offset="1" stop-color="#A855F7"/>
+    </linearGradient>
+    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M64 0H0V64" fill="none" stroke="#FFFFFF" stroke-opacity="0.035" stroke-width="1"/>
+    </pattern>
+    <radialGradient id="fade" cx="50%" cy="45%" r="60%">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#000000"/>
+    </radialGradient>
+    <mask id="gridMask"><rect width="1920" height="1080" fill="url(#fade)"/></mask>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  <rect width="1920" height="1080" fill="url(#grid)" mask="url(#gridMask)"/>
+  <circle cx="960" cy="420" r="420" fill="url(#aura)"/>
+
+  <g transform="translate(960 410) scale(0.62) translate(-256 -268)">
+    <path d="M96 64H160V112H224V64H288V112H352V64H416V296C416 384 352 432 256 472C160 432 96 384 96 296Z" fill="url(#bastion)"/>
+    <path d="M96 64H160V112H224V64H288V112H352V64H416V296C416 384 352 432 256 472C160 432 96 384 96 296Z" fill="none" stroke="#FFFFFF" stroke-opacity="0.2" stroke-width="4"/>
+    <path d="M136 168H376" stroke="#FFFFFF" stroke-opacity="0.22" stroke-width="6" stroke-linecap="round"/>
+    <path d="M136 200H376" stroke="#FFFFFF" stroke-opacity="0.12" stroke-width="6" stroke-linecap="round"/>
+    <path d="M208 380V284C208 257.5 229.5 236 256 236C282.5 236 304 257.5 304 284V380Z" fill="#0B1020"/>
+    <rect x="236" y="318" width="40" height="8" rx="4" fill="#22D3EE" filter="url(#glow)">
+      <animate attributeName="opacity" values="1;0.35;1" dur="2s" repeatCount="indefinite"/>
+    </rect>
+  </g>
+
+  <text x="960" y="660" text-anchor="middle" font-family="Inter, 'Segoe UI', Ubuntu, 'Helvetica Neue', Arial, sans-serif" font-size="84" font-weight="700" letter-spacing="-1" fill="#E2E8F0">Bastia<tspan fill="url(#bar)">OS</tspan></text>
+  <text x="960" y="712" text-anchor="middle" font-family="'JetBrains Mono', 'Fira Code', Menlo, Consolas, monospace" font-size="20" letter-spacing="8" fill="#64748B">YOUR SYSTEM. YOUR FORTRESS.</text>
+
+  <rect x="760" y="796" width="400" height="4" rx="2" fill="#FFFFFF" fill-opacity="0.08"/>
+  <rect x="760" y="796" width="248" height="4" rx="2" fill="url(#bar)" filter="url(#glow)">
+    <animate attributeName="width" values="24;400;24" dur="3.2s" repeatCount="indefinite"/>
+  </rect>
+
+  <g font-family="'JetBrains Mono', 'Fira Code', Menlo, Consolas, monospace" font-size="16" fill="#475569">
+    <text x="960" y="846" text-anchor="middle">Verifying system image · Secure Boot · TPM2 measured</text>
+    <text x="64" y="1032">BastiaOS 0.1 “Muralha” · pre-alpha</text>
+    <text x="1856" y="1032" text-anchor="end">linux 6.x · systemd · wayland</text>
+  </g>
+</svg>

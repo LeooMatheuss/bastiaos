@@ -7,7 +7,7 @@ Regra: trabalhe apenas no STEP de menor número que não esteja ✅ e cuja depen
 | STEP | Título | Etapa | Depende de | Status |
 |---|---|---|---|---|
 | [00](STEP-00-auditoria-e-saneamento-do-repositorio.md) | Auditoria e saneamento do repositório | E0 Fundação | nenhuma. | 🟡 |
-| [01](STEP-01-decisoes-de-arquitetura-adrs.md) | Decisões de arquitetura (ADRs) | E0 Fundação | STEP 00. | ⬜ |
+| [01](STEP-01-decisoes-de-arquitetura-adrs.md) | Decisões de arquitetura (ADRs) | E0 Fundação | STEP 00. | 🟡 |
 | [02](STEP-02-governanca-e-documentacao-do-repositorio.md) | Governança e documentação do repositório | E0 Fundação | STEP 01 (ADR-0006). | ⬜ |
 | [03](STEP-03-infraestrutura-de-build.md) | Infraestrutura de build | E0 Fundação | STEP 02. | ⬜ |
 | [04](STEP-04-laboratorio-de-testes-e-baseline-das-referencias.md) | Laboratório de testes e baseline das referências | E0 Fundação | STEP 03; host já validado (KVM, OVMF secboot). | ⬜ |

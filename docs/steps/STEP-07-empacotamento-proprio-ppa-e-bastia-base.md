@@ -8,7 +8,7 @@
 2. **Justificativa:** configuração solta na imagem não recebe atualização; pacote recebe (correção de ordem nº 1).
 3. **Implementação:**
    - PPA no Launchpad (`ppa:<equipe>/bastiaos`).
-   - Pacote `bastia-base` com: `/etc/os-release` (`ID=bastiaos`, `ID_LIKE=ubuntu`), fonte APT da Mozilla com pin 1000, pins `-1` para os pacotes de transição snap, remote Flathub, ufw com entrada negada, drop-ins do journald.
+   - Pacote `bastia-base` com: `/etc/os-release` (`ID=bastiaos`, `ID_LIKE="ubuntu debian"`, `UBUNTU_CODENAME=resolute`, conforme o [ADR-0007](../adr/0007-versionamento-e-suporte.md)), fonte APT da Mozilla com pin 1000, pins `-1` para os pacotes de transição snap, remote Flathub, ufw com entrada negada, drop-ins do journald.
    - Validação Firefox rapid-release × ESR em 26.04.
 4. **Arquivos:** `packages/bastia-base/debian/`, `packages/bastia-base/etc/apt/preferences.d/`.
 5. **Dependências:** STEP 06.

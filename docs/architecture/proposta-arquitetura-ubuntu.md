@@ -1,6 +1,6 @@
 # BastiaOS — Auditoria, Arquitetura Ubuntu e Roadmap Definitivo
 
-> **Status:** Proposta para validação — STEP 00 aplicado (Buildroot arquivado em `archive/buildroot`); ADRs pendentes no STEP 01.
+> **Status:** Aceita em 2026-11-14 — as decisões V1–V8 estão registradas nos [ADRs 0002–0008](../adr/README.md); o Buildroot foi arquivado na tag `archive/buildroot`.
 > **Data:** 2026-11-14 · **Base auditada:** `ORDEM-DE-IMPLANTACAO.md` (auditoria de `main` @ `7d8d8f9`)
 > **Substitui, se aprovada:** Plano Mestre v2 (Debian + mkosi + labwc) e a ordem S00–S49.
 

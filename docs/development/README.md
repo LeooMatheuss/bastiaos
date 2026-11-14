@@ -5,7 +5,7 @@ This section contains documentation for setting up the development environment a
 ## Development Environment
 
 - Setting up build tools
-- Cross-compilation toolchain
+- Builder container (mmdebstrap, xorriso) — see ADR-0003
 - Testing infrastructure
 - CI/CD configuration
 

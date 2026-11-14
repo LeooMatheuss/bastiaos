@@ -8,7 +8,7 @@
 [![Base](https://img.shields.io/badge/base-Ubuntu%2026.04%20LTS-6366F1?style=flat-square)](docs/architecture/proposta-arquitetura-ubuntu.md)
 [![Desktop](https://img.shields.io/badge/desktop-Xfce%204.20-22D3EE?style=flat-square)](docs/architecture/proposta-arquitetura-ubuntu.md)
 [![Arch](https://img.shields.io/badge/arch-x86__64-A855F7?style=flat-square)](#-architecture)
-[![License](https://img.shields.io/badge/license-TBD-lightgrey?style=flat-square)](#-license)
+[![License](https://img.shields.io/badge/license-GPL--2.0--or--later-lightgrey?style=flat-square)](docs/adr/0006-licenca.md)
 
 [Vision](#-vision) ·
 [Features](#-key-features) ·
@@ -36,7 +36,7 @@ No silent snaps, no telemetry, no background services without a reason. Every ch
 
 ## ✨ Key Features
 
-> Features below describe the **target design** from the [architecture proposal](docs/architecture/proposta-arquitetura-ubuntu.md). They become commitments only once the matching ADRs are accepted ([STEP 01](docs/steps/STEP-01-decisoes-de-arquitetura-adrs.md)).
+> Features below describe the **target design**, decided in [ADRs 0002–0008](docs/adr/README.md). See [Project Status](#-project-status) for what is implemented today.
 
 | | Feature | Description |
 |---|---|---|
@@ -47,7 +47,7 @@ No silent snaps, no telemetry, no background services without a reason. Every ch
 | 🧬 | **Reproducible builds** | Own pipeline (mmdebstrap + `snapshot.ubuntu.com`), runnable in CI. |
 | 🙈 | **Private by default** | No apport, whoopsie or ubuntu-report; no telemetry. |
 | 🛠️ | **Ready for developers** | `bastia-devsetup` installs development profiles on demand. |
-| 📖 | **Documented decisions** | Every structural choice is recorded as an [ADR](docs/decisions/README.md). |
+| 📖 | **Documented decisions** | Every structural choice is recorded as an [ADR](docs/adr/README.md). |
 
 ## 🧩 Architecture
 
@@ -68,19 +68,20 @@ No silent snaps, no telemetry, no background services without a reason. Every ch
 └──────────────────────────────────────────────────────────┘
 ```
 
-| Layer | Proposed choice |
-|---|---|
-| Base | Ubuntu 26.04 LTS (`main` + `universe`), `linux-generic-hwe-26.04` |
-| Boot | shim + GRUB + kernel signed by Canonical |
-| Security | AppArmor (Ubuntu profiles), ufw deny-incoming |
-| Desktop | Xorg + Xfce 4.20 + LightDM GTK greeter |
-| Packages | APT; own Launchpad PPA |
-| Apps | Flatpak + Flathub; snap available, not installed |
-| Installer | Calamares |
-| Filesystem | ext4 (Btrfs + snapshots after beta) |
-| Build | mmdebstrap + snapshot.ubuntu.com → casper → xorriso |
+| Layer | Choice | ADR |
+|---|---|---|
+| Base | Ubuntu 26.04 LTS (`main` + `universe`), `linux-generic-hwe-26.04` | [0002](docs/adr/0002-base-ubuntu-xfce.md) |
+| Boot | shim + GRUB + kernel signed by Canonical | [0003](docs/adr/0003-pipeline-de-build.md) |
+| Security | AppArmor (Ubuntu profiles), ufw deny-incoming | [0002](docs/adr/0002-base-ubuntu-xfce.md) |
+| Desktop | Xorg + Xfce 4.20 + LightDM GTK greeter | [0002](docs/adr/0002-base-ubuntu-xfce.md) |
+| Packages | APT; own Launchpad PPA | [0008](docs/adr/0008-repositorio-ppa.md) |
+| Apps | Flatpak + Flathub; snap available, not installed | [0004](docs/adr/0004-politica-snap-flatpak.md) |
+| Installer | Calamares | [0005](docs/adr/0005-instalador-calamares.md) |
+| Filesystem | ext4 (Btrfs + snapshots after beta) | [0005](docs/adr/0005-instalador-calamares.md) |
+| Build | mmdebstrap + snapshot.ubuntu.com → casper → xorriso | [0003](docs/adr/0003-pipeline-de-build.md) |
+| Versioning | SemVer, MAJOR = Ubuntu base; 1.x supported until 04/2029 | [0007](docs/adr/0007-versionamento-e-suporte.md) |
 
-Full rationale, comparisons with Debian, Fedora, Arch, NixOS and Gentoo, and the decisions pending validation: [`docs/architecture/proposta-arquitetura-ubuntu.md`](docs/architecture/proposta-arquitetura-ubuntu.md).
+Each ADR compares the choice with Ubuntu, Debian, Fedora, Arch, NixOS and Gentoo and states when the decision is reopened. Background research: [`docs/architecture/proposta-arquitetura-ubuntu.md`](docs/architecture/proposta-arquitetura-ubuntu.md).
 
 ## 📍 Project Status
 
@@ -120,7 +121,7 @@ bastiaos/
 │   └── branding/          # Logo, icon and boot splash
 └── docs/
     ├── architecture/      # Architecture proposal and design documents
-    ├── decisions/         # Architecture Decision Records (ADRs)
+    ├── adr/               # Architecture Decision Records (ADRs)
     ├── steps/             # Implementation STEPs 00–19
     └── ...                # boot, security, testing, etc.
 ```
@@ -148,16 +149,24 @@ PNG exports are available alongside each SVG.
 
 ## 🤝 Contributing
 
-Contributions are welcome once the license is defined (STEP 01–02).
+Contributions are welcome under the [Developer Certificate of Origin](https://developercertificate.org/) (`git commit -s`).
 
 1. Read the [STEPs](docs/steps/README.md) and the [architecture proposal](docs/architecture/proposta-arquitetura-ubuntu.md)
-2. Check existing [ADRs](docs/decisions/README.md) for relevant decisions
+2. Check existing [ADRs](docs/adr/README.md) for relevant decisions
 3. Open an issue (or an ADR) for significant changes
 4. Include tests and update documentation in the same PR
 
 ## 📄 License
 
-To be defined in ADR-0006 ([STEP 01](docs/steps/STEP-01-decisoes-de-arquitetura-adrs.md)) and applied in [STEP 02](docs/steps/STEP-02-governanca-e-documentacao-do-repositorio.md). Until then, no license is granted.
+Decided in [ADR-0006](docs/adr/0006-licenca.md):
+
+| What | License |
+|---|---|
+| Code, scripts, configuration and packaging | GPL-2.0-or-later |
+| Documentation and non-brand artwork | CC BY-SA 4.0 |
+| Name, logo and icon (`assets/branding/`) | Trademark — use under the BastiaOS trademark policy |
+
+The full license texts and the trademark policy are added to the repository in [STEP 02](docs/steps/STEP-02-governanca-e-documentacao-do-repositorio.md).
 
 ---
 

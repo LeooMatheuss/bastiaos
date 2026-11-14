@@ -5,7 +5,8 @@ This directory contains the technical documentation for the BastiaOS project.
 ## Structure
 
 - `architecture/` - System architecture and design documents
-- `decisions/` - Architecture Decision Records (ADRs)
+- `adr/` - Architecture Decision Records (ADRs)
+- `steps/` - Implementation STEPs 00–19
 - `development/` - Development setup and workflow documentation
 - `kernel/` - Kernel configuration and driver documentation
 - `boot/` - Boot process and bootloader documentation

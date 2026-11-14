@@ -2,7 +2,7 @@
 
 ## Status
 
-**Status**: Accepted
+**Status**: Superseded by [ADR-0002](0002-base-ubuntu-xfce.md) (base) and [ADR-0003](0003-pipeline-de-build.md) (build pipeline) on 2026-11-14
 **Date**: 2026-09-22
 **Decision Type**: Technical
 **Context**: Initial Build System Evaluation
@@ -269,3 +269,4 @@ We explored the possibility of using a hybrid approach (Buildroot for base, Yoct
 ## Revision History
 
 - v1.0 - Initial decision (2026-09-22)
+- v1.1 - Superseded by ADR-0002 and ADR-0003; the Buildroot files were archived in the `archive/buildroot` tag (2026-11-14)

@@ -4,7 +4,7 @@ This section contains documentation about the graphics stack, display server, an
 
 ## Contents
 
-- Wayland display server
-- Graphics drivers
-- Display manager
+- Xorg + Xfce 4.20 (X11 session) — see ADR-0002
+- Graphics drivers (Mesa, proprietary via `ubuntu-drivers`)
+- Display manager (LightDM)
 - GPU acceleration

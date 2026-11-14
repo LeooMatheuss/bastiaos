@@ -108,3 +108,5 @@ images/*.vmdk
 # Installer artifacts
 installer/build/
 installer/dist/
+/site/
+.venv-docs/

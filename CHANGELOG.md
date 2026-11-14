@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - README rewritten without Buildroot, aligned to the new architecture (STEP 00).
 
 ### Added
+- Build infrastructure: pinned builder image (`ci/Dockerfile.builder`, ubuntu:26.04 by digest), `Makefile` entry point, `tools/validate-env.sh`, bats unit tests, CI workflow.
 - Governance: GPL-2.0 `LICENSE`, CC BY-SA 4.0 text, trademark policy, CONTRIBUTING, SECURITY, Code of Conduct, issue/PR templates.
 - Documentation site: MkDocs + Material config, `requirements-docs.txt`, docs workflow publishing to GitHub Pages.
 - ADRs 0002–0008: Ubuntu 26.04 LTS + Xfce base, build pipeline, snap/Flatpak policy, Calamares installer, license (GPL-2.0-or-later + CC BY-SA 4.0), versioning and support window, Launchpad PPA.

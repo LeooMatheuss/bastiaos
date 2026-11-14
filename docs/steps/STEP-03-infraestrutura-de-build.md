@@ -2,7 +2,7 @@
 
 | Etapa | Status | Depende de | Anterior | Próximo |
 |---|---|---|---|---|
-| E0 Fundação | ⬜ Não iniciado | STEP 02 | [STEP 02](STEP-02-governanca-e-documentacao-do-repositorio.md) | [STEP 04](STEP-04-laboratorio-de-testes-e-baseline-das-referencias.md) |
+| E0 Fundação | ✅ Concluído | STEP 02 | [STEP 02](STEP-02-governanca-e-documentacao-do-repositorio.md) | [STEP 04](STEP-04-laboratorio-de-testes-e-baseline-das-referencias.md) |
 
 1. **Objetivo:** ambiente de build idêntico localmente e no CI.
 2. **Justificativa:** os entregáveis da Phase 0 não estão no repositório; sem builder fixado não há reprodutibilidade.
@@ -26,13 +26,13 @@
 ---
 
 ## Checklist de conclusão (trilhas contínuas)
-- [ ] Critérios do item 7 cumpridos e verificados pelos testes do item 8
-- [ ] Documentação atualizada no mesmo PR
-- [ ] Nenhum serviço novo sem justificativa; AppArmor e ufw ativos
-- [ ] `make bench` executado (a partir do STEP 08) sem regressão > 10%
-- [ ] ADR aceito para qualquer decisão estrutural
-- [ ] Entrada no `CHANGELOG.md` (seção "Não lançado")
-- [ ] Status atualizado aqui e em `docs/steps/README.md` no mesmo commit
+- [x] Critérios do item 7 cumpridos e verificados pelos testes do item 8
+- [x] Documentação atualizada no mesmo PR
+- [x] Nenhum serviço novo sem justificativa; AppArmor e ufw ativos — *N/A: nenhum serviço de SO neste step*
+- [x] `make bench` executado (a partir do STEP 08) sem regressão > 10% — *N/A antes do STEP 08*
+- [x] ADR aceito para qualquer decisão estrutural
+- [x] Entrada no `CHANGELOG.md` (seção "Não lançado")
+- [x] Status atualizado aqui e em `docs/steps/README.md` no mesmo commit
 
 **Commit sugerido:** `<tipo>(<escopo>): step 03 — infraestrutura de build`
 

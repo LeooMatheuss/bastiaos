@@ -2,18 +2,17 @@
 
 <img src="assets/branding/logo.svg" alt="BastiaOS" width="560">
 
-### An immutable, secure-by-default and fully reproducible Linux distribution.
+### A lightweight, secure-by-default Linux distribution built on Ubuntu LTS.
 
 [![Status](https://img.shields.io/badge/status-pre--alpha-orange?style=flat-square)](#-project-status)
-[![Build System](https://img.shields.io/badge/build-Buildroot-6366F1?style=flat-square)](docs/decisions/ADR-0001-build-system.md)
-[![Arch](https://img.shields.io/badge/arch-x86__64-22D3EE?style=flat-square)](#-architecture)
-[![Init](https://img.shields.io/badge/init-systemd-A855F7?style=flat-square)](docs/system/README.md)
+[![Base](https://img.shields.io/badge/base-Ubuntu%2026.04%20LTS-6366F1?style=flat-square)](docs/architecture/proposta-arquitetura-ubuntu.md)
+[![Desktop](https://img.shields.io/badge/desktop-Xfce%204.20-22D3EE?style=flat-square)](docs/architecture/proposta-arquitetura-ubuntu.md)
+[![Arch](https://img.shields.io/badge/arch-x86__64-A855F7?style=flat-square)](#-architecture)
 [![License](https://img.shields.io/badge/license-TBD-lightgrey?style=flat-square)](#-license)
 
 [Vision](#-vision) ·
 [Features](#-key-features) ·
 [Architecture](#-architecture) ·
-[Quick Start](#-quick-start) ·
 [Roadmap](#-roadmap) ·
 [Contributing](#-contributing)
 
@@ -29,170 +28,77 @@
 
 ## 🏰 Vision
 
-A *bastião* (bastion) is the part of a fortress designed to be the hardest to breach. **BastiaOS** applies that idea to the desktop: a Linux system whose core is **read-only, verified at every boot, and rebuilt bit-for-bit from source**, while users keep full freedom on top of it.
+A *bastião* (bastion) is the part of a fortress designed to be the hardest to breach. **BastiaOS** applies that idea to the desktop: a clean, fast and private Linux system that keeps the proven core of **Ubuntu LTS** — kernel, signed boot chain, drivers and security updates — and curates everything on top of it.
 
-Modern operating systems are moving toward image-based, atomic designs — but most of them are large, opaque or tied to a single vendor. BastiaOS aims to be the opposite: **small, transparent, auditable and understandable by a single person**.
+No silent snaps, no telemetry, no background services without a reason. Every choice is measured, documented and reversible by the user.
 
 > **Your system. Your fortress.**
 
 ## ✨ Key Features
 
-> Features below describe the **target design**. See [Project Status](#-project-status) for what is implemented today.
+> Features below describe the **target design** from the [architecture proposal](docs/architecture/proposta-arquitetura-ubuntu.md). They become commitments only once the matching ADRs are accepted ([STEP 01](docs/steps/STEP-01-decisoes-de-arquitetura-adrs.md)).
 
 | | Feature | Description |
 |---|---|---|
-| 🧱 | **Immutable core** | Read-only root filesystem; system changes happen only through signed image updates. |
-| 🔁 | **Atomic A/B updates** | Updates are applied to an inactive slot and switched atomically, with automatic rollback on failure. |
-| 🔐 | **Verified boot chain** | UEFI Secure Boot, Unified Kernel Images (UKI), dm-verity and TPM2-measured boot. |
-| 🧬 | **Reproducible builds** | Same source, same bytes. Every artifact can be independently rebuilt and verified. |
-| 📜 | **Supply-chain transparency** | SBOM generated for every release, pinned and checksummed sources. |
-| 🪶 | **Minimal footprint** | Target of < 10 s boot and < 500 MB RAM at idle. |
-| 🖥️ | **Wayland-native desktop** | Modern graphics stack with no legacy X11 dependency by default. |
-| 📦 | **Sandboxed apps** | Applications delivered via Flatpak, isolated from the base system. |
-| 📖 | **Documented decisions** | Every architectural choice is recorded as an [ADR](docs/decisions/README.md). |
+| 🧱 | **Ubuntu LTS core** | Ubuntu 26.04 LTS `main` + `universe`, HWE kernel, untouched packages from the Ubuntu archive. |
+| 🔐 | **Secure Boot out of the box** | shim, GRUB and kernel signed by Canonical — no custom keys required. |
+| 🪶 | **Lightweight Xfce desktop** | Xfce 4.20 with a curated selection, measured against Xubuntu Minimal. |
+| 📦 | **No silent snaps** | `snapd` not preinstalled; Flatpak + Flathub enabled; snap stays one `apt install` away. |
+| 🧬 | **Reproducible builds** | Own pipeline (mmdebstrap + `snapshot.ubuntu.com`), runnable in CI. |
+| 🙈 | **Private by default** | No apport, whoopsie or ubuntu-report; no telemetry. |
+| 🛠️ | **Ready for developers** | `bastia-devsetup` installs development profiles on demand. |
+| 📖 | **Documented decisions** | Every structural choice is recorded as an [ADR](docs/decisions/README.md). |
 
 ## 🧩 Architecture
 
-BastiaOS follows a layered design, where each layer is independent and replaceable:
-
 ```
 ┌──────────────────────────────────────────────────────────┐
-│  Applications            Flatpak (sandboxed)             │
+│  User apps          APT (Ubuntu + PPAs) · Flatpak/Flathub │
+│                     snap (optional, explicit)             │
 ├──────────────────────────────────────────────────────────┤
-│  Desktop                 Wayland compositor + shell      │
-│  Graphics                Mesa · DRM/KMS                  │
+│  BastiaOS (own PPA) bastia-base · bastia-desktop          │
+│                     bastia-desktop-settings · artwork     │
+│                     bastia-devsetup                       │
 ├──────────────────────────────────────────────────────────┤
-│  System Services         systemd · networking · updates  │
-│  Userspace               coreutils · bash · BusyBox      │
+│  Desktop            Xorg · Xfce 4.20 · LightDM            │
 ├──────────────────────────────────────────────────────────┤
-│  Root Filesystem         read-only image (A/B slots)     │
-│  Initramfs               early userspace · verity setup  │
-├──────────────────────────────────────────────────────────┤
-│  Linux Kernel            custom config · signed UKI      │
-│  Bootloader              GRUB2 → systemd-boot (planned)  │
-├──────────────────────────────────────────────────────────┤
-│  Toolchain & Build       Buildroot · glibc · ccache      │
+│  Ubuntu 26.04 LTS   HWE kernel · shim + GRUB (signed)     │
+│                     systemd · AppArmor · NetworkManager   │
+│                     PipeWire · Mesa · firmware            │
 └──────────────────────────────────────────────────────────┘
 ```
 
-Current base configuration (see [`build/configs/bastiaos_defconfig`](build/configs/bastiaos_defconfig)):
-
-| Component | Choice |
+| Layer | Proposed choice |
 |---|---|
-| Build system | [Buildroot](https://buildroot.org) `2024.02.2` — [ADR-0001](docs/decisions/ADR-0001-build-system.md) |
-| Target | `x86_64` |
-| C library | glibc |
-| Init | systemd |
-| Kernel | Latest stable Linux |
-| Bootloader | GRUB2 |
-| Root filesystem | ext4 |
+| Base | Ubuntu 26.04 LTS (`main` + `universe`), `linux-generic-hwe-26.04` |
+| Boot | shim + GRUB + kernel signed by Canonical |
+| Security | AppArmor (Ubuntu profiles), ufw deny-incoming |
+| Desktop | Xorg + Xfce 4.20 + LightDM GTK greeter |
+| Packages | APT; own Launchpad PPA |
+| Apps | Flatpak + Flathub; snap available, not installed |
+| Installer | Calamares |
+| Filesystem | ext4 (Btrfs + snapshots after beta) |
+| Build | mmdebstrap + snapshot.ubuntu.com → casper → xorriso |
 
-## 🚀 Quick Start
-
-### Requirements
-
-A Linux host with `git`, `wget`, `tar`, `make`, `gcc`, `python3` and, for testing, `qemu-system-x86_64`.
-
-### Build
-
-```bash
-git clone <repository-url> bastiaos
-cd bastiaos
-
-# Download and prepare Buildroot
-./scripts/setup-buildroot.sh
-
-# Apply the BastiaOS configuration
-cd build/buildroot
-cp ../configs/bastiaos_defconfig .config
-
-# (optional) customize
-make menuconfig
-
-# Build the full system
-make -j"$(nproc)"
-```
-
-### Run in QEMU
-
-```bash
-qemu-system-x86_64 \
-    -kernel output/images/bzImage \
-    -drive file=output/images/rootfs.ext2,format=raw \
-    -append "root=/dev/sda console=ttyS0" \
-    -nographic \
-    -m 512M
-```
-
-More details in [`build/README.md`](build/README.md) and [`docs/development/buildroot-setup.md`](docs/development/buildroot-setup.md).
+Full rationale, comparisons with Debian, Fedora, Arch, NixOS and Gentoo, and the decisions pending validation: [`docs/architecture/proposta-arquitetura-ubuntu.md`](docs/architecture/proposta-arquitetura-ubuntu.md).
 
 ## 📍 Project Status
 
-🚧 **Pre-Alpha** — the project is in its foundation phase. The build system has been selected and an initial Buildroot configuration is in place. BastiaOS is **not** suitable for production use.
+🚧 **Pre-Alpha — E0 Foundation.** The architecture has been redefined around Ubuntu LTS. There is nothing to build yet: the build infrastructure arrives in [STEP 03](docs/steps/STEP-03-infraestrutura-de-build.md). BastiaOS is **not** suitable for any use.
+
+Earlier experiments are preserved in Git tags under `archive/` — see the [CHANGELOG](CHANGELOG.md).
 
 ## 🗺️ Roadmap
 
-<details open>
-<summary><b>Phase 1 — Foundation</b></summary>
+Work follows numbered STEPs; only the lowest STEP not yet ✅ is worked on. Full list and status: [`docs/steps/README.md`](docs/steps/README.md).
 
-- [x] Select build system ([ADR-0001](docs/decisions/ADR-0001-build-system.md))
-- [x] Initial Buildroot configuration
-- [ ] Cross-compilation toolchain
-- [ ] Minimal bootable system in QEMU
-- [ ] Reproducible build pipeline (CI)
-
-</details>
-
-<details>
-<summary><b>Phase 2 — Core System</b></summary>
-
-- [ ] Kernel configuration and hardening
-- [ ] systemd integration
-- [ ] Filesystem layout
-- [ ] Networking stack
-
-</details>
-
-<details>
-<summary><b>Phase 3 — Immutable & Verified Boot</b></summary>
-
-- [ ] Read-only root with dm-verity
-- [ ] A/B image updates with rollback
-- [ ] Unified Kernel Images + Secure Boot signing
-- [ ] TPM2 measured boot
-- [ ] Boot splash (Plymouth) using the BastiaOS theme
-
-</details>
-
-<details>
-<summary><b>Phase 4 — Graphics & Desktop</b></summary>
-
-- [ ] Wayland compositor
-- [ ] Mesa / DRM graphics stack
-- [ ] Desktop environment selection
-- [ ] Display manager
-
-</details>
-
-<details>
-<summary><b>Phase 5 — User Experience</b></summary>
-
-- [ ] Flatpak integration
-- [ ] System configuration tools
-- [ ] Installer
-
-</details>
-
-<details>
-<summary><b>Phase 6 — Testing & Release</b></summary>
-
-- [ ] Automated boot tests (QEMU)
-- [ ] Reproducibility verification
-- [ ] SBOM and vulnerability scanning
-- [ ] Performance tuning
-- [ ] First public release — **0.1 “Muralha”**
-
-</details>
+| Stage | STEPs | Exit gate |
+|---|---|---|
+| E0 Foundation | 00–04 | **G0** single architecture, license, CI, reference baselines |
+| E1 Minimal system | 05–07 | **G1** reproducible live ISO with Secure Boot + working PPA |
+| E2 Desktop | 08–12 | **G2** full desktop, app store and updates |
+| E3 Product | 13–15 | **G3** dev environment, measured footprint, visual identity |
+| E4 Delivery | 16–19 | **G4** public beta |
 
 ## 🧭 Development Philosophy
 
@@ -200,11 +106,11 @@ More details in [`build/README.md`](build/README.md) and [`docs/development/buil
 Design → Build → Test → Document → Improve
 ```
 
-1. **Reproducibility** — all builds must be reproducible from source.
-2. **Transparency** — decisions are documented in ADRs.
-3. **Modularity** — components are independent and replaceable.
-4. **Simplicity** — no unnecessary complexity.
-5. **User control** — the user always owns their system.
+1. **Measure before claiming** — targets are set from benchmarks of the reference distributions.
+2. **Nothing runs without a reason** — every service is inventoried and justified.
+3. **Decisions in ADRs** — no structural change without an accepted ADR.
+4. **Docs in the same PR** — documentation is part of the definition of done.
+5. **User control** — sensible defaults, never locked-in choices.
 
 ## 🗂️ Repository Structure
 
@@ -212,34 +118,19 @@ Design → Build → Test → Document → Improve
 bastiaos/
 ├── assets/
 │   └── branding/          # Logo, icon and boot splash
-├── build/
-│   ├── configs/           # Buildroot defconfig
-│   ├── linux/             # Kernel configuration
-│   └── package/           # Package overrides (BusyBox, ...)
-├── docs/
-│   ├── architecture/      # System architecture
-│   ├── decisions/         # Architecture Decision Records (ADRs)
-│   ├── development/       # Developer guides
-│   └── ...                # boot, kernel, security, testing, etc.
-└── scripts/               # Setup and utility scripts
+└── docs/
+    ├── architecture/      # Architecture proposal and design documents
+    ├── decisions/         # Architecture Decision Records (ADRs)
+    ├── steps/             # Implementation STEPs 00–19
+    └── ...                # boot, security, testing, etc.
 ```
-
-## 🧪 Testing Strategy
-
-- Unit tests for individual components
-- Integration tests for system services
-- Automated boot tests in QEMU
-- Reproducibility checks on build artifacts
-- Security and vulnerability scanning
-
-See [`docs/testing`](docs/testing/README.md).
 
 ## 🛡️ Security
 
-- Minimal attack surface through a small base system
-- Secure defaults and strict file permissions
-- Verified, signed boot chain (planned)
-- Regular updates and audits
+- Ubuntu security updates via `unattended-upgrades`
+- AppArmor and ufw always enabled
+- Signed boot chain inherited from Ubuntu
+- Minimal set of services, each one justified
 
 Please report vulnerabilities privately — see [`docs/security`](docs/security/README.md).
 
@@ -257,18 +148,16 @@ PNG exports are available alongside each SVG.
 
 ## 🤝 Contributing
 
-Contributions are welcome!
+Contributions are welcome once the license is defined (STEP 01–02).
 
-1. Read the documentation in [`docs/`](docs/README.md)
+1. Read the [STEPs](docs/steps/README.md) and the [architecture proposal](docs/architecture/proposta-arquitetura-ubuntu.md)
 2. Check existing [ADRs](docs/decisions/README.md) for relevant decisions
 3. Open an issue (or an ADR) for significant changes
-4. Follow the existing code style
-5. Include tests and update documentation
-6. Submit a pull request
+4. Include tests and update documentation in the same PR
 
 ## 📄 License
 
-To be determined. The project will likely adopt a permissive open-source license.
+To be defined in ADR-0006 ([STEP 01](docs/steps/STEP-01-decisoes-de-arquitetura-adrs.md)) and applied in [STEP 02](docs/steps/STEP-02-governanca-e-documentacao-do-repositorio.md). Until then, no license is granted.
 
 ---
 

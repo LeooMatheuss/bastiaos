@@ -4,7 +4,7 @@ This section contains documentation about the boot process, bootloader configura
 
 ## Contents
 
-- Bootloader configuration (GRUB, systemd-boot, etc.)
-- Initramfs setup
+- Signed shim + GRUB from Ubuntu (Secure Boot) — see ADR-0003
+- Initramfs and casper (live) setup
 - Boot sequence documentation
 - Troubleshooting boot issues

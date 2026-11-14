@@ -1,0 +1,91 @@
+site_name: BastiaOS Docs
+site_description: Documentation for BastiaOS — a lightweight, secure-by-default Linux distribution.
+site_url: https://leoomatheuss.github.io/bastiaos/
+repo_url: https://github.com/LeooMatheuss/bastiaos
+repo_name: LeooMatheuss/bastiaos
+docs_dir: docs
+
+theme:
+  name: material
+  language: pt-BR
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: cyan
+      accent: deep purple
+      toggle:
+        icon: material/brightness-7
+        name: Mudar para tema escuro
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: cyan
+      accent: deep purple
+      toggle:
+        icon: material/brightness-4
+        name: Mudar para tema claro
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+
+extra_css:
+  - assets/extra.css
+nav:
+  - Home: index.md
+  - Architecture:
+      - Overview: architecture/README.md
+      - Proposta Arquitetura Ubuntu: architecture/proposta-arquitetura-ubuntu.md
+  - Decisions (ADRs):
+      - Overview: adr/README.md
+      - Build System: adr/0001-build-system.md
+      - Base Ubuntu Xfce: adr/0002-base-ubuntu-xfce.md
+      - Pipeline De Build: adr/0003-pipeline-de-build.md
+      - Politica Snap Flatpak: adr/0004-politica-snap-flatpak.md
+      - Instalador Calamares: adr/0005-instalador-calamares.md
+      - Licenca: adr/0006-licenca.md
+      - Versionamento E Suporte: adr/0007-versionamento-e-suporte.md
+      - Repositorio Ppa: adr/0008-repositorio-ppa.md
+  - Implementation STEPs:
+      - Overview: steps/README.md
+      - Auditoria E Saneamento Do Repositorio: steps/STEP-00-auditoria-e-saneamento-do-repositorio.md
+      - Decisoes De Arquitetura Adrs: steps/STEP-01-decisoes-de-arquitetura-adrs.md
+      - Governanca E Documentacao Do Repositorio: steps/STEP-02-governanca-e-documentacao-do-repositorio.md
+      - Infraestrutura De Build: steps/STEP-03-infraestrutura-de-build.md
+      - Laboratorio De Testes E Baseline Das Referencias: steps/STEP-04-laboratorio-de-testes-e-baseline-das-referencias.md
+      - Rootfs Minimo Reprodutivel: steps/STEP-05-rootfs-minimo-reprodutivel.md
+      - Iso Live Minima Tty Com Secure Boot: steps/STEP-06-iso-live-minima-tty-com-secure-boot.md
+      - Empacotamento Proprio Ppa E Bastia Base: steps/STEP-07-empacotamento-proprio-ppa-e-bastia-base.md
+      - Ambiente Grafico Xfce Minimo: steps/STEP-08-ambiente-grafico-xfce-minimo.md
+      - Configuracao Padrao Do Desktop: steps/STEP-09-configuracao-padrao-do-desktop.md
+      - Aplicativos Essenciais: steps/STEP-10-aplicativos-essenciais.md
+      - Hardware Drivers E Perifericos: steps/STEP-11-hardware-drivers-e-perifericos.md
+      - Loja De Aplicativos Flatpak E Atualizacoes: steps/STEP-12-loja-de-aplicativos-flatpak-e-atualizacoes.md
+      - Ambiente De Desenvolvimento Bastia Devsetup: steps/STEP-13-ambiente-de-desenvolvimento-bastia-devsetup.md
+      - Otimizacao De Desempenho: steps/STEP-14-otimizacao-de-desempenho.md
+      - Identidade Visual No Sistema: steps/STEP-15-identidade-visual-no-sistema.md
+      - Instalador Calamares E Iso Instalavel: steps/STEP-16-instalador-calamares-e-iso-instalavel.md
+      - Ci De Release E Testes Automatizados De Ponta A Ponta: steps/STEP-17-ci-de-release-e-testes-automatizados-de-ponta-a-ponta.md
+      - Hardware Real: steps/STEP-18-hardware-real.md
+      - Correcoes Documentacao De Usuario E Beta: steps/STEP-19-correcoes-documentacao-de-usuario-e-beta.md
+  - Boot:
+      - Overview: boot/README.md
+  - Development:
+      - Overview: development/README.md
+  - Filesystem:
+      - Overview: filesystem/README.md
+  - Graphics:
+      - Overview: graphics/README.md
+  - Kernel:
+      - Overview: kernel/README.md
+  - Networking:
+      - Overview: networking/README.md
+  - Packages:
+      - Overview: packages/README.md
+  - Releases:
+      - Overview: releases/README.md
+  - Security:
+      - Overview: security/README.md
+  - System:
+      - Overview: system/README.md
+  - Testing:
+      - Overview: testing/README.md
